@@ -1,8 +1,11 @@
 package com.pramu.fasteats.service;
 
+import com.pramu.fasteats.config.AuthConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,14 +18,21 @@ import java.util.*;
 public class JwtService {
 
     //    private static final String SECRET_KEY = "eR6ahCwOdQOCK6DMfENPw7eZBMCknueNre9WQ5+mmfo=";
-    @Value("${application.security.jwt.secret-key}")
-    private String SECRET_KEY;
+//    @Value("${application.security.jwt.secret-key}")
+//    private String SECRET_KEY;
 //    @Value("${application.security.jwt.expiration}")
 //    private long jwtExpiration;
 //    @Value("${application.security.jwt.refresh-token.expiration}")
 //    private long refreshExpiration;
 
-    private SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+//    private SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+    private final SecretKey secretKey = Keys.hmacShaKeyFor(AuthConstant.SECRET_KEY.getBytes()) ;
+
+//    @PostConstruct
+//    public void init() {
+//        this.secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+//    }
 
     public String buildToken(Authentication auth) {
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
