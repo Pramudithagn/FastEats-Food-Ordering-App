@@ -4,7 +4,7 @@ import com.pramu.fasteats.model.IngredientCategory;
 import com.pramu.fasteats.model.IngredientItem;
 import com.pramu.fasteats.request.IngredientCategoryRequest;
 import com.pramu.fasteats.request.IngredientItemRequest;
-import com.pramu.fasteats.service.IngredientsService;
+import com.pramu.fasteats.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@ import java.util.List;
 public class IngredientController {
 
     @Autowired
-    private IngredientsService ingredientsService;
+    private IngredientService ingredientService;
 
     @PostMapping("/ingredientCategory")
     public ResponseEntity<IngredientCategory> createIngredientCategory(
             @RequestBody IngredientCategoryRequest request) throws Exception {
 
-        IngredientCategory ingredientCategory = ingredientsService.createIngredientCategory(request.getName(), request.getRestaurantId());
+        IngredientCategory ingredientCategory = ingredientService.createIngredientCategory(request.getName(), request.getRestaurantId());
         return new ResponseEntity<>(ingredientCategory, HttpStatus.CREATED);
     }
 
@@ -31,7 +31,7 @@ public class IngredientController {
     public ResponseEntity<IngredientItem> createIngredientItem(
             @RequestBody IngredientItemRequest request) throws Exception {
 
-        IngredientItem ingredientItem = ingredientsService.createIngredientItem(request.getRestaurantId(), request.getName(), request.getIngredientCategoryId());
+        IngredientItem ingredientItem = ingredientService.createIngredientItem(request.getRestaurantId(), request.getName(), request.getIngredientCategoryId());
         return new ResponseEntity<>(ingredientItem, HttpStatus.CREATED);
     }
 
@@ -39,7 +39,7 @@ public class IngredientController {
     public ResponseEntity<IngredientItem> updateIngredientStock(
             @PathVariable Long id) throws Exception {
 
-        IngredientItem ingredientItem = ingredientsService.ingredientItemStockUpdate(id);
+        IngredientItem ingredientItem = ingredientService.ingredientItemStockUpdate(id);
         return new ResponseEntity<>(ingredientItem, HttpStatus.OK);
     }
 
@@ -47,7 +47,7 @@ public class IngredientController {
     public ResponseEntity<List<IngredientItem>> getRestaurantIngredientItems(
             @PathVariable Long id) throws Exception {
 
-        List<IngredientItem> ingredientItems = ingredientsService.findRestaurantIngredientItems(id);
+        List<IngredientItem> ingredientItems = ingredientService.findRestaurantIngredientItems(id);
         return new ResponseEntity<>(ingredientItems, HttpStatus.OK);
     }
 
@@ -55,7 +55,7 @@ public class IngredientController {
     public ResponseEntity<List<IngredientCategory>> getRestaurantIngredientCategories(
             @PathVariable Long id) throws Exception {
 
-        List<IngredientCategory> ingredientcategories = ingredientsService.findIngredientCategoryByRestaurantId(id);
+        List<IngredientCategory> ingredientcategories = ingredientService.findIngredientCategoryByRestaurantId(id);
         return new ResponseEntity<>(ingredientcategories, HttpStatus.OK);
     }
 }

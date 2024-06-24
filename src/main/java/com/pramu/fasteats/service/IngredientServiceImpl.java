@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IngredientServiceImpl implements IngredientsService {
+public class IngredientServiceImpl implements IngredientService {
 
     @Autowired
     private IngredientCategoryRepository ingredientCategoryRepository;

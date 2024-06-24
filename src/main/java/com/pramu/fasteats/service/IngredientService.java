@@ -5,7 +5,7 @@ import com.pramu.fasteats.model.IngredientItem;
 
 import java.util.List;
 
-public interface IngredientsService {
+public interface IngredientService {
 
     public IngredientCategory findIngredientCategoryById(Long id) throws Exception;
 
