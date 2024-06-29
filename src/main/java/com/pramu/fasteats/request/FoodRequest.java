@@ -14,7 +14,7 @@ public class FoodRequest {
     private Long price;
     private boolean vegetarian;
     private boolean seasonal;
-    private List<IngredientItem> ingrediants;
+    private List<IngredientItem> ingredients;
     private List<String> images;
     private Category category;
     private Long restaurantId;

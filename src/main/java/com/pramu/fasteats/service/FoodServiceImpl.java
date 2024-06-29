@@ -87,7 +87,7 @@ public class FoodServiceImpl implements FoodService {
         food.setDescription(request.getDescription());
         food.setSeasonal(request.isSeasonal());
         food.setVegetarian(request.isVegetarian());
-        food.setIngredients(request.getIngrediants());
+        food.setIngredients(request.getIngredients());
         food.setImages(request.getImages());
 
         Food savedFood = foodRepository.save(food);
