@@ -1,11 +1,12 @@
 package com.pramu.fasteats.controller;
 
-import com.pramu.fasteats.model.CartItem;
 import com.pramu.fasteats.model.Order;
 import com.pramu.fasteats.model.User;
-import com.pramu.fasteats.request.CartItemRequest;
 import com.pramu.fasteats.request.OrderRequest;
+import com.pramu.fasteats.response.MessageResponse;
+import com.pramu.fasteats.response.PaymentResponse;
 import com.pramu.fasteats.service.OrderService;
+import com.pramu.fasteats.service.PaymentService;
 import com.pramu.fasteats.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,20 +25,39 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/order/user")
-    public ResponseEntity<Order> addCartItemToCart(@RequestBody OrderRequest request,
-                                                      @RequestHeader("Authorization") String token) throws Exception {
+    @Autowired
+    private PaymentService paymentService;
+
+    @PostMapping("/order")
+//    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest request,
+//                                             @RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<PaymentResponse > createOrder(@RequestBody OrderRequest request,
+                                                       @RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
         Order order = orderService.createOrder(request, user);
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        PaymentResponse response = paymentService.createPaymentLink(order);
+        response.setOrderId(order.getId());
+//        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
     }
 
-    @GetMapping("/order")
-    public ResponseEntity<List<Order>> getOrders(@RequestBody OrderRequest request,
-                                                   @RequestHeader("Authorization") String token) throws Exception {
+    @GetMapping("/order/user")
+    public ResponseEntity<List<Order>> getUserOrders(
+                                                     @RequestHeader("Authorization") String token) throws Exception {
+        System.out.println(token);
         User user = userService.findUserByJwtToken(token);
         List<Order> order = orderService.getUserOrders(user.getId());
         return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/order/{id}/cancel")
+    public ResponseEntity<MessageResponse> cancelOrder(@PathVariable Long id) throws Exception {
+        orderService.cancelOrder(id);
+
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setMessage("Order " + id + " cancelled!");
+        return new ResponseEntity<>(messageResponse,HttpStatus.OK);
     }
 
 }
