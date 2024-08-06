@@ -3,6 +3,7 @@ package com.pramu.fasteats.service;
 import com.pramu.fasteats.config.AuthConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.*;
+
+import static com.pramu.fasteats.config.AuthConstant.SECRET_KEY;
 
 @Service
 public class JwtService {
@@ -27,7 +30,9 @@ public class JwtService {
 
 //    private SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    private final SecretKey secretKey = Keys.hmacShaKeyFor(AuthConstant.SECRET_KEY.getBytes()) ;
+//    private final SecretKey secretKey = Keys.hmacShaKeyFor(AuthConstant.SECRET_KEY.getBytes()) ;
+    private final SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY)) ;
+
 
 //    @PostConstruct
 //    public void init() {
@@ -39,11 +44,12 @@ public class JwtService {
         String roles = populateAuthorities(authorities);
         
         return Jwts.builder()
-                .setSubject(auth.getName())
+                .subject(auth.getName())
                 .claim("authorities", roles)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 70000000))
-                .signWith(secretKey)
+                .signWith(secretKey, Jwts.SIG.HS256)
+//                .signWith(secretKey)
                 .compact();
     }
 

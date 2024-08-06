@@ -46,6 +46,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody User user) throws Exception {
+        System.out.println("heyyyyyyyyyy"+user);
+
         User userExist = userRepository.findByEmail(user.getEmail());
         if(userExist != null){
             throw new Exception("Email used already");
@@ -63,7 +65,12 @@ public class AuthController {
         cart.setCustomer(savedUser);
         cartRepository.save(cart);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+
+        UserDetails userDetails = userDetailsServiceExtended.loadUserByUsername(savedUser.getEmail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtService.buildToken(authentication);
@@ -73,7 +80,7 @@ public class AuthController {
         authResponse.setMessage("Registered Successfully");
         authResponse.setRole(savedUser.getRole());
 
-        return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")

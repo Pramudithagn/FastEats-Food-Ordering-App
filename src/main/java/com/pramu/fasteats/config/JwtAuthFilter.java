@@ -44,10 +44,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if(jwt!=null){
 
             jwt = jwt.substring(7);
-
+            System.out.println(jwt);
+            System.out.println("tttttttttttttttttttttttttttttttttttttttttttt");
             try {
-                  SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-//                SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+//                  SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+                SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+
+//                byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+//                SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+
+//                SecretKey key = Keys.hmacShaKeyFor(AuthConstant.SECRET_KEY.getBytes()) ;
 
                 Claims claims = Jwts.parser()
                         .verifyWith(key)
@@ -57,6 +63,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 String email = claims.getSubject();
                 String authorities = String.valueOf(claims.get("authorities"));
+
+                System.out.println(authorities);
+                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
                 List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auth);

@@ -43,7 +43,8 @@ public class SecurityConfig {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowCredentials(true);
                 config.setAllowedOrigins(Arrays.asList(
-                        "http://localhost:8080"
+//                        "http://localhost:8080",
+                        "http://localhost:3000"
                 ));
                 config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowedHeaders(Collections.singletonList("*"));
