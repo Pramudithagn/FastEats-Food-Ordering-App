@@ -36,7 +36,7 @@ public class CartController {
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
     }
 
-    @PutMapping("/cart-item/{id}/remove")
+    @DeleteMapping("/cart-item/{id}/remove")
     public ResponseEntity<Cart> updateCartItemQuantity(@PathVariable Long id,
                                                            @RequestHeader("Authorization") String token) throws Exception {
 

@@ -40,7 +40,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findCartByUserId(Long userId) throws Exception {
-        Cart cart = cartRepository.findByUserId(userId);
+//        Cart cart = cartRepository.findByUserId(userId);
+        Cart cart = cartRepository.findByCustomer_Id(userId);
         cart.setTotal(getCartTotalPrice(cart)); // To be used in order service, in the creation of order
         return cart;
     }
@@ -49,7 +50,8 @@ public class CartServiceImpl implements CartService {
     public CartItem addItemToCart(CartItemRequest request, String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
         Food food = foodService.findFoodById(request.getFoodId());
-        Cart cart = cartRepository.findByUserId(user.getId());
+//        Cart cart = cartRepository.findByUserId(user.getId());
+        Cart cart = cartRepository.findByCustomer_Id(user.getId());
 
         for (CartItem cartItem : cart.getCartItems()) {
             if (cartItem.getFood().equals(food)) {
@@ -96,7 +98,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart removeItemFromCart(Long cartItemId, String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
-        Cart cart = cartRepository.findByUserId(user.getId());
+//        Cart cart = cartRepository.findByUserId(user.getId());
+        Cart cart = cartRepository.findByCustomer_Id(user.getId());
 
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
         if (cartItemOptional.isEmpty()) {
