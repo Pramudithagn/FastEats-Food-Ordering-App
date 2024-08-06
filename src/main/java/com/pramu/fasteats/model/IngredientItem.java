@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -19,10 +20,12 @@ public class IngredientItem {
     private String name;
     private boolean inStock = true;
 
+    @ToString.Exclude
     @JsonIgnore
     @ManyToOne
     private Restaurant restaurant;
 
+    @ToString.Exclude
     @ManyToOne
     private IngredientCategory ingredientCategory;
 

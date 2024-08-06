@@ -19,7 +19,7 @@ public class IngredientController {
     @Autowired
     private IngredientService ingredientService;
 
-    @PostMapping("/ingredientCategory")
+    @PostMapping("/category")
     public ResponseEntity<IngredientCategory> createIngredientCategory(
             @RequestBody IngredientCategoryRequest request) throws Exception {
 
@@ -27,7 +27,7 @@ public class IngredientController {
         return new ResponseEntity<>(ingredientCategory, HttpStatus.CREATED);
     }
 
-    @PostMapping("/ingredientItem")
+    @PostMapping()
     public ResponseEntity<IngredientItem> createIngredientItem(
             @RequestBody IngredientItemRequest request) throws Exception {
 
