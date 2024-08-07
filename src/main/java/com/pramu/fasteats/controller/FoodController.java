@@ -27,7 +27,7 @@ public class FoodController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<List<Food>> searchFood(@RequestParam String name,
                                            @RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
@@ -39,9 +39,9 @@ public class FoodController {
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<List<Food>> getRestaurantFood(@PathVariable Long restaurantId,
                                                         @RequestHeader("Authorization") String token,
-                                                        @RequestParam boolean vegetarian,
-                                                        @RequestParam boolean nonVegetarian,
-                                                        @RequestParam boolean seasonal,
+                                                        @RequestParam(required = false) boolean vegetarian,
+                                                        @RequestParam(required = false) boolean nonVegetarian,
+                                                        @RequestParam(required = false) boolean seasonal,
                                                         @RequestParam(required = false) String category) throws Exception {
         User user = userService.findUserByJwtToken(token);
         List<Food> foods = foodService.getRestaurantFoods(restaurantId, category, vegetarian, nonVegetarian, seasonal);

@@ -8,7 +8,7 @@ public interface CategoryService {
 
     public Category findCategoryById(Long id) throws Exception;
 
-    public List<Category> findCategoryByRestaurant(Long userId) throws Exception;
+    public List<Category> findCategoryByRestaurant(Long id) throws Exception;
 
     public Category createCategory(String name, Long userId) throws Exception;
 }

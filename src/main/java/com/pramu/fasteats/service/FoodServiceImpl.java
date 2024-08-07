@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class FoodServiceImpl implements FoodService {
         if (category != null && !category.equals("")) {
             foods = filterByCategory(foods, category);
         }
-
+        System.out.println("foodssss"+ foods);
         return foods;
     }
 
@@ -89,6 +90,7 @@ public class FoodServiceImpl implements FoodService {
         food.setVegetarian(request.isVegetarian());
         food.setIngredients(request.getIngredients());
         food.setImages(request.getImages());
+        food.setCreationDate(new Date());
 
         Food savedFood = foodRepository.save(food);
         restaurant.getFoods().add(savedFood);

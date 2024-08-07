@@ -20,6 +20,8 @@ public class Food {
     private Long id;
 
     private String name;
+
+    @Column(length = 1200)
     private String description;
     private Long price;
 
