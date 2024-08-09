@@ -26,6 +26,7 @@ public class AdminOrderController {
     public ResponseEntity<List<Order>> getOrders(@PathVariable Long id,
                                                  @RequestParam(required = false) String orderStatus,
                                                  @RequestHeader("Authorization") String token) throws Exception {
+        System.out.println(orderStatus);
         User user = userService.findUserByJwtToken(token);
         List<Order> order = orderService.getRestaurantOrders(id, orderStatus);
         return new ResponseEntity<>(order, HttpStatus.OK);

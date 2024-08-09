@@ -2,14 +2,18 @@ package com.pramu.fasteats.request;
 
 import com.pramu.fasteats.model.Address;
 import com.pramu.fasteats.model.ContactInformation;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RestaurantRequest {
 
-    private Long id;
+//    private Long id;
     private String name;
     private Address address;
     private String description;
