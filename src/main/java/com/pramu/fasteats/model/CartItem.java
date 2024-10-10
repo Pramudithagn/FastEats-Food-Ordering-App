@@ -13,20 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @JsonIgnore
     @ManyToOne
     private Cart cart;
-
     @ManyToOne
     private Food food;
-
-    private List<String> ingredients;
+    private List<String> addons;
     private int quantity;
     private Long totalPrice;
-
 }

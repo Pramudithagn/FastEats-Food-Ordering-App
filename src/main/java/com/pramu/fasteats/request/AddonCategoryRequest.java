@@ -3,10 +3,7 @@ package com.pramu.fasteats.request;
 import lombok.Data;
 
 @Data
-public class IngredientItemRequest {
-
+public class AddonCategoryRequest {
     private String name;
-    private Long ingredientCategoryId;
     private Long restaurantId;
-
 }

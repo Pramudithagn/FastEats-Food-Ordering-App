@@ -44,14 +44,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getUserOrders(Long userId) throws Exception {
-//        return orderRepository.findByUserId(userId);
         return orderRepository.findAllUserOrders(userId);
 
     }
 
     @Override
     public List<Order> getRestaurantOrders(Long restaurantId, String orderStatus) throws Exception {
-//        List<Order> orders = orderRepository.findByRestaurantId(restaurantId);
         List<Order> orders = orderRepository.findOrdersByRestaurantId(restaurantId);
         if (orderStatus != null) {
             orders = orders.stream().filter(order -> order.getOrderStatus().equals(orderStatus)).collect(Collectors.toList());
@@ -85,14 +83,13 @@ public class OrderServiceImpl implements OrderService {
             Orderitem orderitem = new Orderitem();
             orderitem.setFood(cartItem.getFood());
             orderitem.setQuantity(cartItem.getQuantity());
-            orderitem.setIngredients(cartItem.getIngredients());
+            orderitem.setAddons(cartItem.getAddons());
             orderitem.setTotalPrice(cartItem.getTotalPrice());
 
             Orderitem savedOrderitem = orderItemRepository.save(orderitem);
             orderitemList.add(savedOrderitem);
         }
 
-//        Long totalPrice = 0L;
         order.setItems(orderitemList);
         order.setTotalPrice(cartService.getCartTotalPrice(cart));
 
@@ -116,6 +113,5 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOrder(Long orderId) throws Exception {
         Order order = findOrderById(orderId);
         orderRepository.delete(order);
-
     }
 }

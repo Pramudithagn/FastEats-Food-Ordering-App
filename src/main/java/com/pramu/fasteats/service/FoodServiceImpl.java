@@ -53,7 +53,6 @@ public class FoodServiceImpl implements FoodService {
         if (category != null && !category.equals("")) {
             foods = filterByCategory(foods, category);
         }
-        System.out.println("foodssss"+ foods);
         return foods;
     }
 
@@ -88,13 +87,12 @@ public class FoodServiceImpl implements FoodService {
         food.setDescription(request.getDescription());
         food.setSeasonal(request.isSeasonal());
         food.setVegetarian(request.isVegetarian());
-        food.setIngredients(request.getIngredients());
+        food.setAddons(request.getAddons());
         food.setImages(request.getImages());
         food.setCreationDate(new Date());
 
         Food savedFood = foodRepository.save(food);
         restaurant.getFoods().add(savedFood);
-
         return savedFood;
     }
 

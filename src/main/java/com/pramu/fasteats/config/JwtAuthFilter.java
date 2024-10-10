@@ -4,12 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,34 +24,16 @@ import static com.pramu.fasteats.config.AuthConstant.SECRET_KEY;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-//    @Value("${application.security.jwt.secret-key}")
-//    private String SECRET_KEY;
-//
-//    private SecretKey secretKey;
-//
-//    @PostConstruct
-//    public void init() {
-//        this.secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-//    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String jwt = request.getHeader("Authorization");
 
         if(jwt!=null){
-
             jwt = jwt.substring(7);
-            System.out.println(jwt);
-            System.out.println("tttttttttttttttttttttttttttttttttttttttttttt");
+
             try {
-//                  SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
                 SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
-
-//                byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-//                SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-
-//                SecretKey key = Keys.hmacShaKeyFor(AuthConstant.SECRET_KEY.getBytes()) ;
 
                 Claims claims = Jwts.parser()
                         .verifyWith(key)
@@ -63,9 +43,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 String email = claims.getSubject();
                 String authorities = String.valueOf(claims.get("authorities"));
-
-                System.out.println(authorities);
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
                 List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auth);
@@ -78,5 +55,4 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 }

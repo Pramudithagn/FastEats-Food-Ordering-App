@@ -24,10 +24,8 @@ public class CategoryController {
     @PostMapping("/admin/category")
     public ResponseEntity<Category> createCategory(@RequestBody Category category,
                                                    @RequestHeader("Authorization") String token) throws Exception {
-
         User user = userService.findUserByJwtToken(token);
         Category createdCategory = categoryService.createCategory(category.getName(), user.getId());
-
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
@@ -35,10 +33,7 @@ public class CategoryController {
     public ResponseEntity<List<Category>> getRestaurantCategory(
             @RequestHeader("Authorization") String token,
             @PathVariable Long id) throws Exception {
-
-        User user = userService.findUserByJwtToken(token);
         List<Category> categories = categoryService.findCategoryByRestaurant(id);
-
         return new ResponseEntity<>(categories, HttpStatus.CREATED);
     }
 }

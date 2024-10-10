@@ -39,14 +39,12 @@ public class CartController {
     @DeleteMapping("/cart-item/{id}/remove")
     public ResponseEntity<Cart> updateCartItemQuantity(@PathVariable Long id,
                                                            @RequestHeader("Authorization") String token) throws Exception {
-
         Cart cart = cartService.removeItemFromCart(id, token);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @PutMapping("/cart/clear")
     public ResponseEntity<Cart> clearCart(@RequestHeader("Authorization") String token) throws Exception {
-
         User user = userService.findUserByJwtToken(token);
         Cart cart = cartService.clearCart(user.getId());
         return new ResponseEntity<>(cart, HttpStatus.OK);
@@ -54,7 +52,6 @@ public class CartController {
 
     @GetMapping("/cart")
     public ResponseEntity<Cart> findUserCart(@RequestHeader("Authorization") String token) throws Exception {
-
         User user = userService.findUserByJwtToken(token);
         Cart cart = cartService.findCartByUserId(user.getId());
         return new ResponseEntity<>(cart, HttpStatus.OK);

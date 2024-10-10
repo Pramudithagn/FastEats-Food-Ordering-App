@@ -37,7 +37,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
 
         Session session = Session.create(params);
-
         PaymentResponse response = new PaymentResponse();
         response.setPayment_url(session.getUrl());
 

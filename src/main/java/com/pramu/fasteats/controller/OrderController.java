@@ -29,23 +29,17 @@ public class OrderController {
     private PaymentService paymentService;
 
     @PostMapping("/order")
-//    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest request,
-//                                             @RequestHeader("Authorization") String token) throws Exception {
     public ResponseEntity<PaymentResponse > createOrder(@RequestBody OrderRequest request,
                                                        @RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
         Order order = orderService.createOrder(request, user);
         PaymentResponse response = paymentService.createPaymentLink(order);
         response.setOrderId(order.getId());
-//        return new ResponseEntity<>(order, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-
     }
 
     @GetMapping("/order/user")
-    public ResponseEntity<List<Order>> getUserOrders(
-                                                     @RequestHeader("Authorization") String token) throws Exception {
-        System.out.println(token);
+    public ResponseEntity<List<Order>> getUserOrders(@RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findUserByJwtToken(token);
         List<Order> order = orderService.getUserOrders(user.getId());
         return new ResponseEntity<>(order, HttpStatus.OK);
@@ -54,10 +48,8 @@ public class OrderController {
     @DeleteMapping("/order/{id}/cancel")
     public ResponseEntity<MessageResponse> cancelOrder(@PathVariable Long id) throws Exception {
         orderService.cancelOrder(id);
-
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setMessage("Order " + id + " cancelled!");
         return new ResponseEntity<>(messageResponse,HttpStatus.OK);
     }
-
 }

@@ -46,8 +46,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody User user) throws Exception {
-        System.out.println("heyyyyyyyyyy"+user);
-
         User userExist = userRepository.findByEmail(user.getEmail());
         if(userExist != null){
             throw new Exception("Email used already");
@@ -58,21 +56,17 @@ public class AuthController {
         registerUser.setPassword(passwordEncoder.encode(user.getPassword()));
         registerUser.setFullName(user.getFullName());
         registerUser.setRole(user.getRole());
-
         User savedUser = userRepository.save(registerUser);
 
         Cart cart = new Cart();
         cart.setCustomer(savedUser);
         cartRepository.save(cart);
 
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-
         UserDetails userDetails = userDetailsServiceExtended.loadUserByUsername(savedUser.getEmail());
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = jwtService.buildToken(authentication);
 
         AuthResponse authResponse = new AuthResponse();
@@ -100,16 +94,12 @@ public class AuthController {
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.isEmpty() ? null : authorities.iterator().next().getAuthority();
-
         String jwt = jwtService.buildToken(authentication);
-
         AuthResponse authResponse = new AuthResponse();
         authResponse.setToken(jwt);
         authResponse.setMessage("Login Successful");
         authResponse.setRole(USER_ROLE.valueOf(role));
 
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
-
-
     }
 }

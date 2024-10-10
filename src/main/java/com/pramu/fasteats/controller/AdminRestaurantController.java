@@ -28,7 +28,6 @@ public class AdminRestaurantController {
 
         User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.createRestaurant(restaurantRequest, user);
-
         return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
     }
 
@@ -37,10 +36,7 @@ public class AdminRestaurantController {
             @RequestBody RestaurantRequest restaurantRequest,
             @RequestHeader("Authorization") String token,
             @PathVariable Long id) throws Exception {
-
-        User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.updateRestaurant(restaurantRequest, id);
-
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
@@ -49,9 +45,7 @@ public class AdminRestaurantController {
             @RequestHeader("Authorization") String token,
             @PathVariable Long id) throws Exception {
 
-        User user = userService.findUserByJwtToken(token);
         restaurantService.deleteRestaurant(id);
-
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setMessage("Restaurant deleted successfully.");
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
@@ -61,10 +55,7 @@ public class AdminRestaurantController {
     public ResponseEntity<Restaurant> updateRestaurantStatus(
             @RequestHeader("Authorization") String token,
             @PathVariable Long id) throws Exception {
-
-        User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.updateRestaurantStatus(id);
-
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
@@ -74,11 +65,6 @@ public class AdminRestaurantController {
 
         User user = userService.findUserByJwtToken(token);
         Restaurant restaurant = restaurantService.getRestaurantByUserId(user.getId());
-        System.out.println("heyyyyyyyyy" + restaurant);
-
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
-
-
-
 }

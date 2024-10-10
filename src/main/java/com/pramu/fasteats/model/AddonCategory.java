@@ -14,19 +14,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientCategory {
-
+public class AddonCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
-
     @ToString.Exclude
     @JsonIgnore
-    @OneToMany(mappedBy = "ingredientCategory", cascade = CascadeType.ALL)
-    private List<IngredientItem> ingredients = new ArrayList<>();
-
+    @OneToMany(mappedBy = "addonCategory", cascade = CascadeType.ALL)
+    private List<AddonItem> addons = new ArrayList<>();
     @ToString.Exclude
     @JsonIgnore
     @ManyToOne

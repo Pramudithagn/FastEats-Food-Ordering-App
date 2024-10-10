@@ -12,8 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantRequest {
-
-//    private Long id;
     private String name;
     private Address address;
     private String description;
@@ -21,5 +19,4 @@ public class RestaurantRequest {
     private List<String> images;
     private String cuisineType;
     private String openingHours;
-
 }

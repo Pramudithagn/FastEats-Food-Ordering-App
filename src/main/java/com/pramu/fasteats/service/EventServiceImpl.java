@@ -21,7 +21,6 @@ public class EventServiceImpl implements EventsService {
     @Override
     public Event createEvent(Event event, Long restaurantId) throws Exception {
         Restaurant restaurant=restaurantService.findRestaurantById(restaurantId);
-
         Event createdEvent=new Event();
         createdEvent.setRestaurant(restaurant);
         createdEvent.setImage(event.getImage());

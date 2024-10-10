@@ -11,22 +11,17 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientItem {
-
+public class AddonItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
     private boolean inStock = true;
-
     @ToString.Exclude
     @JsonIgnore
     @ManyToOne
     private Restaurant restaurant;
-
     @ToString.Exclude
     @ManyToOne
-    private IngredientCategory ingredientCategory;
-
+    private AddonCategory addonCategory;
 }

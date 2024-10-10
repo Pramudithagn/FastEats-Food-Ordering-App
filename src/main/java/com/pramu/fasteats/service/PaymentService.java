@@ -7,7 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface PaymentService {
-
     public PaymentResponse createPaymentLink(Order order) throws StripeException;
-
 }

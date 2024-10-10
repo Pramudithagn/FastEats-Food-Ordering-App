@@ -80,15 +80,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (restaurant.getName() != null) {
             restaurant.setName(restaurantRequest.getName());
         }
-
         if (restaurant.getDescription() != null) {
             restaurant.setDescription(restaurantRequest.getDescription());
         }
-
         if (restaurant.getCuisineType() != null) {
             restaurant.setCuisineType(restaurantRequest.getCuisineType());
         }
-
         return restaurantRepository.save(restaurant);
     }
 
@@ -106,11 +103,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantDto.setTitle(restaurant.getName());
         restaurantDto.setImages(restaurant.getImages());
         restaurantDto.setDescription(restaurant.getDescription());
-
-//        if(user.getFavourites().contains(restaurantDto)){
-//            user.getFavourites().remove(restaurantDto);
-//        }
-//        else user.getFavourites().add(restaurantDto);
 
         boolean isFavourited = false;
         List<RestaurantDto> favouritesList = user.getFavourites();

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,27 +17,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String fullName;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
     private String email;
     private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     @JsonIgnore
     @ToString.Exclude
     private List<Order> orders = new ArrayList<>();
-
     @ElementCollection
     private List<RestaurantDto> favourites = new ArrayList<>();
-
     @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
